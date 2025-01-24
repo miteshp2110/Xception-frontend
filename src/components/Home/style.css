@@ -1,0 +1,63 @@
+.homeBackground{
+    background-color: bisque;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.homeBackground h1{
+    font-family: "Bebas Neue",serif;
+}
+
+.notLoggedContainer{
+
+    /* background-color: blue; */
+    font-family: "Bebas Neue",serif;
+    padding-inline: 50px;
+    
+}
+
+.heroContainer{
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.notLoggedContainer h2{
+    text-align: center;
+    font-size: 6em;
+}
+
+.notLoggedContainer p{
+    text-align: center;
+    font-size: 2em;
+}
+
+.continueButton{
+    margin-top: 20px;
+    font-size: 2.5em;
+    display: flex;
+    justify-content: center;
+    column-gap: 50px;
+}
+
+.continueGoogle{
+    background-color: white;
+    padding: 5px;
+    padding-inline: 10px;
+    border-radius: 5%;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+.continueGithub{
+    background-color: white;
+    padding: 5px;
+    padding-inline: 10px;
+    border-radius: 5%;
+    cursor: pointer;
+    letter-spacing: 2px;
+}

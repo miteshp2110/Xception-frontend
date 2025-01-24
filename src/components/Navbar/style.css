@@ -1,0 +1,59 @@
+.navbarContainer{
+    font-family: "Bebas Neue",serif;
+    top: 0;
+    position: sticky;
+    background-color:bisque;
+    width: 100%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display: flex;
+    font-size: 2em;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+.headingContainer{
+    display: flex;
+    flex-direction: row;
+    column-gap: 3px;
+    margin-left: 50px;
+}
+.documentation h1{
+    font-size: 1em;
+    margin-right: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#gettingStartedButton{
+    margin-right: 50px;
+    color: rgb(255, 255, 255);
+    background-color: lightgray;
+    padding: 5px;
+    transition: all 0.3s ease;
+    border-radius: 5%;
+}
+
+.getStarted h1{
+    font-size: 1em;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5%;
+}
+
+.buttonContainer{
+    display: flex;
+
+    align-items: center;
+}
+
+.getStarted h1:hover{
+    text-shadow: -3px 3px 1px rgba(0, 0, 0,0.5) ; 
+}
+
+
+.documentation h1:hover{
+    text-shadow: -3px 3px 1px rgba(0, 0, 0,0.5) ; 
+}
