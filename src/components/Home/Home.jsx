@@ -23,6 +23,13 @@ function Home(){
             delay:0.5
         })
 
+        gsap.from(".scrollHint",{
+            x:-10,
+            duration:1,
+            alpha:0,
+            delay:0.5
+        })
+
         allElements.forEach(element =>{
 
             gsap.fromTo(element,
@@ -32,8 +39,7 @@ function Home(){
                         trigger: element,
                         start:"bottom center",
                         end : "bottom center",
-                        toggleActions: "play none none none" ,
-                        markers:true
+                        toggleActions: "play none none none" 
                     }
                 }
             )
@@ -47,28 +53,50 @@ function Home(){
                     start:"start center",
                     end : "start center",
                     toggleActions: "play none none none" ,
-                    markers:true
                 }
             }
         )
 
-        // gsap.fromTo('.scroller p',
-        //     {x:0},
-        //     {x:-500,
-        //         scrollTrigger:{
-        //             trigger: '.scroller',
-        //             start:"start center",
-        //             end:"bottom center",
-        //             scrub:2,
-        //             toggleActions: "play none none none" ,
-    
-        //             markers:true
-        //         }
-        //     }
-        // )
+        gsap.fromTo(".scroller",
+            {alpha:0,x:-10},
+            {alpha:1,x:0,
+                scrollTrigger:{
+                    trigger:".scroller",
+                    start:"start start+=90",
+                    end:"end center",
+                }
 
+            }
+        )
+        gsap.fromTo(".scrollerBox",
+            {x:0},
+            {x:"-540em",
+                scrollTrigger:{
+                    trigger:".scroller",
+                    start:"start start+=80",
+                    end:"start start-=1000",
+                    pin:true,
+                    scrub:2,
+                    
+                }
+
+            }
+        )
+
+        gsap.to('.scrollHint',{
+            y:10,
+            duration:0.5,
+            repeat:-1,
+            yoyo:true
+        })
+
+        window.addEventListener("scroll",(e)=>{
+            gsap.to(".scrollHint",{
+                alpha:0
+            })
+        })
         
-
+    
 
     },[])
 
@@ -81,16 +109,42 @@ function Home(){
                 
                 {!isLogged?
                     <>
-                    <div className='notLoggedContainer'>
+                    <div className='notLoggedContainer' id='notLoggedContainer'>
                         <div className='heroContainer'>
                         <h2 className='hone'>Simplify Exception Management with Ease</h2>
                         <p className='hpara'>
                         Struggling with handling exceptions in your Express application? Our platform provides AI-driven solutions to debug and resolve your issues in real-time. 
                         </p>
                         </div>
+                    </div>
+
+                    <div className='scrollHint'>Scroll</div>
+                    
+
+                        <div className='scroller'>
+
+                            <div className='noScrollHead'>
+                            <h1> Why Choose Us?</h1>
+                            </div>                            
+
+                    
+                            <div className='scrollerBox'>
+                                
+                                <div className='scrollElement'>AI-generated solutions tailored for Express applications.</div>
+                                <div className='scrollElement'>Email notifications with detailed debugging steps.</div>
+                                <div className='scrollElement'>
+                                Intuitive project-based API key management.
+                                </div>
+                                <div className='scrollElement'>
+                                Comprehensive exception history tracking.
+                                </div>
+                                <div className='scrollElement'>Easy sign-in with Google or GitHub.</div>
+                            </div>
+                    </div>
+                    <div className='notLoggedContainer'>
 
                         <div ref={(el) => (elements.current[0] = el)}
-                        className='heroContainer'>
+                        className='heroContainer' id='fst'>
                         <h2>AI-Powered Insights with Llama3</h2>
                         <p>
                         Leverage the power of Llama3 to analyze your exceptions and receive detailed, actionable solutions delivered straight to your inbox. Never let an error slow you down again.
@@ -144,26 +198,7 @@ function Home(){
 
                     </div>
 
-                    <div className='scroller'>
-
-                    <div className='noScrollHead'>
-                    <h1> Why Choose Us?</h1>
-                    </div>                            
-
                     
-                    <div className='scrollerBox'>
-                        
-                    <div className='scrollElement'>AI-generated solutions tailored for Express applications.</div>
-                    <div className='scrollElement'>Email notifications with detailed debugging steps.</div>
-                    <div className='scrollElement'>
-                    Intuitive project-based API key management.
-                    </div>
-                    <div className='scrollElement'>
-                    Comprehensive exception history tracking.
-                    </div>
-                    <div className='scrollElement'>Easy sign-in with Google or GitHub.</div>
-                    </div>
-                    </div>
                 </>
 
                 :
