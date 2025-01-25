@@ -52,6 +52,21 @@ function Home(){
             }
         )
 
+        // gsap.fromTo('.scroller p',
+        //     {x:0},
+        //     {x:-500,
+        //         scrollTrigger:{
+        //             trigger: '.scroller',
+        //             start:"start center",
+        //             end:"bottom center",
+        //             scrub:2,
+        //             toggleActions: "play none none none" ,
+    
+        //             markers:true
+        //         }
+        //     }
+        // )
+
         
 
 
@@ -65,6 +80,7 @@ function Home(){
             <div className='homeBackground'>
                 
                 {!isLogged?
+                    <>
                     <div className='notLoggedContainer'>
                         <div className='heroContainer'>
                         <h2 className='hone'>Simplify Exception Management with Ease</h2>
@@ -128,7 +144,27 @@ function Home(){
 
                     </div>
 
+                    <div className='scroller'>
 
+                    <div className='noScrollHead'>
+                    <h1> Why Choose Us?</h1>
+                    </div>                            
+
+                    
+                    <div className='scrollerBox'>
+                        
+                    <div className='scrollElement'>AI-generated solutions tailored for Express applications.</div>
+                    <div className='scrollElement'>Email notifications with detailed debugging steps.</div>
+                    <div className='scrollElement'>
+                    Intuitive project-based API key management.
+                    </div>
+                    <div className='scrollElement'>
+                    Comprehensive exception history tracking.
+                    </div>
+                    <div className='scrollElement'>Easy sign-in with Google or GitHub.</div>
+                    </div>
+                    </div>
+                </>
 
                 :
                     <div>
