@@ -2,8 +2,10 @@ import { useContext, useEffect } from 'react'
 import './style.css'
 import { gsap } from 'gsap'
 import {AppContext} from '../AppContext'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 function Navbar(){
-
+    const navigate = useNavigate();
     const {email,isLogged} = useContext(AppContext)
     const t1 = gsap.timeline({delay:1})
 
@@ -32,28 +34,42 @@ function Navbar(){
 
     },[])
 
+
+    const handleGetStartedClick = () => {
+        navigate("/");
+        setTimeout(() => {
+            const target = document.getElementById("start")
+            if(target){
+                target.scrollIntoView({behavior:"instant",block:"start"})
+            }
+
+        //   document.querySelector('[name="getStartedContainer"]').scrollIntoView({ behavior: "smooth" });
+        }, 0);
+      };
     
 
 
     return(
         <>
             <div className='navbarContainer'>
+                <Link to="/">
                 <div className='headingContainer'>
-                <h1 className='x'>X</h1>
-                <h1 className='c'>C</h1>
-                <h1 className='e'>E</h1>
-                <h1 className='p'>P</h1>
-                <h1 className='t'>T</h1>
-                <h1 className='i'>I</h1>
-                <h1 className='o'>O</h1>
-                <h1 className='n'>N</h1>
-                <h1 className='s'>S</h1>
-                </div>
+                    <h1 className='x'>X</h1>
+                    <h1 className='c'>C</h1>
+                    <h1 className='e'>E</h1>
+                    <h1 className='p'>P</h1>
+                    <h1 className='t'>T</h1>
+                    <h1 className='i'>I</h1>
+                    <h1 className='o'>O</h1>
+                    <h1 className='n'>N</h1>
+                    <h1 className='s'>S</h1>
+                    </div>
+                </Link>
 
                 <div className='buttonContainer'>
-                    <div className='documentation'>
+                    <Link to="/documentation"><div className='documentation'>
                         <h1>Documentation</h1>
-                    </div>
+                    </div></Link>
 
                     {isLogged?
                     
@@ -61,9 +77,11 @@ function Navbar(){
                         
                     </div>
                     :
-                    <div className='getStarted' id='gettingStartedButton'>
-                        <h1 id='gettingStartedText'>Get Started</h1>
+            
+                     <div className='getStarted' id='gettingStartedButton' onClick={handleGetStartedClick}>
+                       <h1 id='gettingStartedText'>Get Started</h1>
                     </div>
+                    
                     
                     }
                 </div>

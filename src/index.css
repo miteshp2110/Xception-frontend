@@ -8,3 +8,11 @@
 body{
   background-color: bisque;
 }
+a {
+  color: inherit; /* Inherits text color from parent */
+  text-decoration: none; /* Removes the underline */
+}
+
+a:visited {
+  color: inherit; /* Ensures visited links also inherit the color */
+}

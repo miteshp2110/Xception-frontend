@@ -3,12 +3,25 @@ import './style.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AppContext } from '../AppContext'
+import { Element } from 'react-scroll';
 function Home(){
     const elements = useRef([]);
-    const {isLogged} = useContext(AppContext)
+    const {isLogged,login} = useContext(AppContext)
     gsap.registerPlugin(ScrollTrigger); 
 
     useEffect(()=>{
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const jwtParam = queryParams.get("jwt");
+
+        try {
+            const jwtObject = JSON.parse(decodeURIComponent(jwtParam)); 
+            login(jwtObject.token,jwtObject.email)
+            window.location.href="/"
+          } catch (err) {
+            console.error("Failed to parse JWT parameter", err);
+          }
+
         const allElements = elements.current; 
         gsap.from(".hone",{
             x:-10,
@@ -87,7 +100,8 @@ function Home(){
             y:10,
             duration:0.5,
             repeat:-1,
-            yoyo:true
+            yoyo:true,
+            
         })
 
         window.addEventListener("scroll",(e)=>{
@@ -162,31 +176,34 @@ function Home(){
                         <div 
                         ref={(el) => (elements.current[2] = el)}className='heroContainer'>
                         <h2> Seamless Integration with API Keys</h2>
-                        <p>
+                        <p >
                         Generate an API key, integrate it into our NPM package, and unlock automated exception management for your projects effortlessly.
                         </p>
                         </div>
 
-                        <div
-                        className='heroContainer getStart'>
-                        <h2> Get Started in Minutes</h2>
-                        <p>
-                        Sign in with Google or GitHub to create your first project. Start managing your exceptions, generate API keys, and let us take care of the rest.
-                        </p>
-                        <div className='continueButton'>
-                        <div className='continueGoogle'>
-                        <span style={{ color: ' #4285F4' }}>G</span>
-                            <span style={{ color: '#DB4437' }}>o</span>
-                            <span style={{ color: '#F4B400' }}>o</span>
-                            <span style={{ color: '#4285F4' }}>g</span>
-                            <span style={{ color: ' #0F9D58' }}>l</span>
-                            <span style={{ color: '#DB4437' }}>e</span>
-                        </div>
-                        <div className='continueGithub'>
-                            Github
-                        </div>
-                        </div>
-                        </div>
+                        <Element name='getStartedContainer'>
+                            <div
+                            
+                            className='heroContainer getStart'>
+                            <h2> Get Started in Minutes</h2>
+                            <p id='start' >
+                            Sign in with Google or GitHub to create your first project. Start managing your exceptions, generate API keys, and let us take care of the rest.
+                            </p>
+                                <div className='continueButton'>
+                                    <a href='https://xceptions.tech/service/oauth/google' className='continueGoogle'>
+                                    <span style={{ color: ' #4285F4' }}>G</span>
+                                        <span style={{ color: '#DB4437' }}>o</span>
+                                        <span style={{ color: '#F4B400' }}>o</span>
+                                        <span style={{ color: '#4285F4' }}>g</span>
+                                        <span style={{ color: ' #0F9D58' }}>l</span>
+                                        <span style={{ color: '#DB4437' }}>e</span>
+                                    </a>
+                                    <a href='https://xceptions.tech/service/oauth/github' className='continueGithub'>
+                                        Github
+                                    </a>
+                                </div>
+                            </div>
+                        </Element>
 
                         <div 
                         ref={(el) => (elements.current[3] = el)}className='heroContainer'>

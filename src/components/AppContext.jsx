@@ -4,7 +4,7 @@ export const AppContext = createContext()
 
 export const AppProvider = ({children})=>{
     const [isLogged,setLogged] = useState(()=>{
-        return localStorage.getItem("isLogged") || false
+        return localStorage.getItem("isLogged")=="true" || false
     })
 
     const [jwt,setJwt] = useState(()=>{
@@ -19,6 +19,9 @@ export const AppProvider = ({children})=>{
         setJwt(jwt)
         setLogged(true)
         setEmail(email)
+        localStorage.setItem("jwt",jwt)
+        localStorage.setItem("email",email)
+        localStorage.setItem("isLogged","true")
     }
     function logout(){
         localStorage.removeItem('isLogged')
