@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 function Navbar(){
     const navigate = useNavigate();
-    const {email,isLogged} = useContext(AppContext)
+    const {email,isLogged,logout} = useContext(AppContext)
     const t1 = gsap.timeline({delay:1})
 
     useEffect(()=>{
@@ -32,6 +32,21 @@ function Navbar(){
     .to('.n',{rotateY:"360",duration:0.9},'-=0.5')
     .to('.s',{rotateY:"360",duration:0.9},'-=0.5')
 
+    if(isLogged){
+        const emailLogout = document.getElementById("emailLogout")
+
+    emailLogout.addEventListener('mouseenter',()=>{
+       emailLogout.innerText="logout"
+    })
+    emailLogout.addEventListener('mouseleave',()=>{
+        emailLogout.innerText = email
+    })
+    emailLogout.addEventListener('click',()=>{
+        logout()
+        window.location.href="/"
+    })
+    }
+
     },[])
 
 
@@ -46,6 +61,8 @@ function Navbar(){
         //   document.querySelector('[name="getStartedContainer"]').scrollIntoView({ behavior: "smooth" });
         }, 0);
       };
+
+
     
 
 
@@ -73,8 +90,8 @@ function Navbar(){
 
                     {isLogged?
                     
-                    <div>
-                        
+                    <div className='emailLogout' id='emailLogout'>
+                        {email}
                     </div>
                     :
             

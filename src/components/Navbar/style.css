@@ -57,3 +57,23 @@
 .documentation h1:hover{
     text-shadow: -3px 3px 1px rgba(0, 0, 0,0.5) ; 
 }
+
+.emailLogout{
+
+    background-color: lightgrey;
+    font-size: 0.8em;
+    margin-right: 50px;
+    width:12.5em;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: rgb(169, 166, 166);
+    padding: 5px;
+    transition: all 0.3s ease;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.emailLogout:hover{
+    transition: all 0.3s ease;
+    text-shadow: -3px 3px 1px rgba(0, 0, 0,0.5) ; 
+}
