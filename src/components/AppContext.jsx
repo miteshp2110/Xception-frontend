@@ -3,6 +3,8 @@ import { createContext, useState } from "react";
 export const AppContext = createContext()
 
 export const AppProvider = ({children})=>{
+
+
     const [isLogged,setLogged] = useState(()=>{
         return localStorage.getItem("isLogged")=="true" || false
     })

@@ -6,21 +6,13 @@ import { AppContext } from '../AppContext'
 import { Element } from 'react-scroll';
 function Home(){
     const elements = useRef([]);
-    const {isLogged,login} = useContext(AppContext)
+    const {isLogged} = useContext(AppContext)
     gsap.registerPlugin(ScrollTrigger); 
 
     useEffect(()=>{
 
-        const queryParams = new URLSearchParams(window.location.search);
-        const jwtParam = queryParams.get("jwt");
-
-        try {
-            const jwtObject = JSON.parse(decodeURIComponent(jwtParam)); 
-            login(jwtObject.token,jwtObject.email)
-            window.location.href="/"
-          } catch (err) {
-            console.error("Failed to parse JWT parameter", err);
-          }
+        if(!isLogged){
+            
 
         const allElements = elements.current; 
         gsap.from(".hone",{
@@ -109,6 +101,7 @@ function Home(){
                 alpha:0
             })
         })
+        }
         
     
 
