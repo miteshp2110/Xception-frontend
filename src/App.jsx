@@ -16,25 +16,21 @@ function App() {
   },[isLoading])
   return (
     <>
-      {/* {isLoading?<Loader/>:
+      {isLoading?<Loader/>:
       <>
-        <Navbar/>
-        <Home/>
-        <Footer/>
+          <BrowserRouter>
+          <Navbar/>
+          <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='/documentation' element={<Documentation/>}/>
+          </Routes>
+          <Footer/>
+        </BrowserRouter>
       </>
-      } */}
+      }
       
-      {/* <Home/> */}
-      {/* <Documentation/> */}
 
-      <BrowserRouter>
-        <Navbar/>
-        <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/documentation' element={<Documentation/>}/>
-        </Routes>
-        <Footer/>
-      </BrowserRouter>
+      
       
     </>
   )
