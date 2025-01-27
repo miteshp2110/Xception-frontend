@@ -1,5 +1,6 @@
 import './style.css'
 import CodeBlock from '../CodeBlock/CodeBlock'
+import { useEffect } from 'react';
 function Documentation(){
     const installCode = `
     npm install xceptions
@@ -74,6 +75,15 @@ function Documentation(){
     });
     
     `
+    useEffect(() => {
+        // const container = document.querySelector(".documentationContainer");
+        // if (container) {
+        //   container.scrollTo({ top: 0, behavior: "smooth" });
+        // }
+
+        window.scrollTo(0,0)
+      }, []);
+
 
 
     return(

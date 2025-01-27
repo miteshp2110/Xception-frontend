@@ -1,10 +1,11 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import './style.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AppContext } from '../AppContext'
 import { Element } from 'react-scroll';
 function Home(){
+    const [isScroll,setScroll] = useState(false)
     const elements = useRef([]);
     const {isLogged} = useContext(AppContext)
     gsap.registerPlugin(ScrollTrigger);
@@ -87,19 +88,22 @@ function Home(){
             }
         )
 
-        gsap.to('.scrollHint',{
-            y:10,
-            duration:0.5,
-            repeat:-1,
-            yoyo:true,
-            
-        })
-
-        window.addEventListener("scroll",(e)=>{
-            gsap.to(".scrollHint",{
-                alpha:0
+        if(!isScroll){
+            gsap.to('.scrollHint',{
+                y:10,
+                duration:0.5,
+                repeat:-1,
+                yoyo:true,
+                
             })
-        })
+    
+            window.addEventListener("scroll",(e)=>{
+                gsap.to(".scrollHint",{
+                    alpha:0
+                })
+                setScroll(true)
+            })
+            }
         }
         
     
