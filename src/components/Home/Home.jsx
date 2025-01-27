@@ -4,10 +4,25 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AppContext } from '../AppContext'
 import { Element } from 'react-scroll';
+import { addProject } from '../../utils/CoreRequests';
+import CodeBlock from '../CodeBlock/CodeBlock'
+import ComponentLoader from '../ComponentLoader/ComponentLoader';
+
 function Home(){
+    
+    const [projectName,setProjectName] = useState('')
+
+    const [projectArray,setProjectArray] = useState([])
+    const [exceptionsArray,setExceptionsArray] = useState([])
+    const [activeProject,setActiveProject] = useState('')
+    const [activeException,setActiveException] = useState(null)
+    const [loadingExceptions,setLoadingException] = useState(false)
+    // setActiveException(0)
+    // setActiveProject('name')
+
     const [isScroll,setScroll] = useState(false)
     const elements = useRef([]);
-    const {isLogged} = useContext(AppContext)
+    const {isLogged,logout,jwt} = useContext(AppContext)
     gsap.registerPlugin(ScrollTrigger);
     useEffect(()=>{
 
@@ -105,12 +120,70 @@ function Home(){
             })
             }
         }
+
+        else{
+            const newProject = {name:"Project1",apiKey:"Apikeyofproject"}
+            setProjectArray([...projectArray,newProject])
+
+            
+            
+        }
         
     
 
     },[])
 
-   
+    async function addNewProject() {
+        const response = await addProject("Test Project2",jwt)
+        if (response.error){
+            if(response.status === 403){
+                console.log("logout")
+            }
+            else{
+                if(response.status === 401){
+                    console.log("name already taken")
+                }
+            }
+        }
+        else{
+            console.log("created project")
+            //refresh
+        }
+    }
+
+    useEffect(()=>{
+        if(isLogged && activeException){
+            console.log(activeException)
+        }
+    },[activeException])
+
+    useEffect(()=>{
+        if(isLogged && activeProject){
+            console.log("get details for project")
+            console.log(activeProject)
+            const exceptionObj = {
+                
+                exception:{
+                    stack:"this is stack trace for the code",
+                    name:"some name",
+                    cause:"some cause"
+                },
+                llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
+            }
+
+            const exceptionObj2 = {
+                
+                exception:{
+                    stack:"this is stack trace for the code 2",
+                    name:"exception2",
+                    cause:"other cause"
+                },
+                llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
+            }
+
+            setExceptionsArray([...exceptionsArray,exceptionObj,exceptionObj2])
+        }
+    },[activeProject])
     
 
     return(
@@ -215,7 +288,64 @@ function Home(){
                 </>
 
                 :
-                    <div>
+                    <div className='loggedContainer'>
+
+                        {/* <button onClick={async()=>{await addNewProject()}}>Add project</button> */}
+
+                        <div className='projectSection sections'>
+                            <h1 className='addProject'>Add Project</h1>
+
+                            <div className='projectList'>
+                                {projectArray.map((project)=>(
+                                    <div className='projectCard' key={project.name} onClick={()=>{
+                                        setActiveProject(project.name)
+                                    }}>
+                                        <h3>
+                                            {project.name}
+                                        </h3>
+                                        <CodeBlock code={project.apiKey} language='english'/>
+                                    </div>
+                                ))}
+
+                                
+                            </div>
+                        </div>
+
+                        <div className='exceptionsSection sections'>
+                            <h1>Exceptions</h1>
+
+                            {activeProject?<div className='projectList'>
+                    
+                                {loadingExceptions?<ComponentLoader/>:                                exceptionsArray.map((exception,index)=>(
+                                    <div className='exceptionCard' key={index} onClick={()=>{
+                                        
+                                        setActiveException(exception)
+                                    }}>
+                                        <h3>
+                                            {exception.exception.name}
+                                        </h3>
+                                    </div>
+                                ))}
+
+                                
+                            </div>:<p>Select a Project</p>}
+
+
+                        </div>
+
+                        <div className='briefSection sections'>
+                            <h1>Exception-Detail</h1>
+
+                            {activeException?<div className='detailContainer'>
+                                {console.log(activeException)}
+                                <h2>Name : {activeException.exception.name}</h2>
+                                <h2>cause : {activeException.exception.cause}</h2>
+                                <h2>Stack Trace :</h2>
+                                <div className='stackTrace'>{activeException.exception.stack}</div>
+
+    <h2>Probable solution : </h2><br/><div className='solutionText'>{activeException.llmResponse}</div>
+                            </div>:<p>Select a exception</p>}
+                        </div>
 
                     </div>
                 

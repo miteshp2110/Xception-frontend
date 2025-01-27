@@ -33,7 +33,7 @@ const CodeBlock = ({ code, language = "javascript" }) => {
         Copy
       </button>
       <pre>
-        <code className={`language-${language}`}>{code}</code>
+        <code className={`language-${language}`}>{language==='english'?`ApiKey\n*******`:code}</code>
       </pre>
     </div>
   );

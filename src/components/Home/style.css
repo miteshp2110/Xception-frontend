@@ -125,3 +125,152 @@
     /* background-color: aqua; */
     font-family: "Bebas Neue",serif;
 }
+
+
+.loggedContainer{
+
+    /* background-color: blue; */
+    font-family: "Bebas Neue",serif;
+    display: flex;
+    width: 100vw;
+    /* background-color: aquamarine; */
+    justify-content: space-between;
+
+    
+}
+
+.sections{
+    background-color: black;
+    height: 80vh;
+    width: 28vw;
+    padding: 5px;
+
+    
+}
+
+.projectSection{
+    /* background-color: red;
+    height: 80vh; */
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.exceptionsSection{
+    /* background-color: blue;
+    height: 80vh; */
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.briefSection{
+    /* background-color: green; */
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.addProject{
+    background-color: rgb(197, 197, 197);
+    text-align: center;
+    cursor: pointer;
+    position: sticky;
+    top: 0;
+    transition: all 0.3s ease;
+
+}
+
+.addProject:hover{
+    text-shadow: -3px 3px 1px rgba(0, 0, 0,0.5) ; 
+}
+
+.projectList{
+    /* background-color: blue; */
+    margin-top: 20px;
+    height: 100%;
+    padding: 5px;
+    overflow:auto;
+}
+
+.projectCard{
+    background-color: white;
+    text-align: center;
+    font-size:1.2em;
+    padding: 2px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.exceptionsSection h1{
+    color: white;
+    background-color: black;
+    text-align: center;
+    /* cursor: pointer; */
+    position: sticky;
+    top: 0;
+}
+.briefSection h1{
+    color: white;
+    background-color: black;
+    text-align: center;
+    /* cursor: pointer; */
+    position: sticky;
+
+    top: 0;
+}
+
+.exceptionCard{
+    background-color: white;
+    text-align: center;
+    font-size:1.2em;
+    padding: 2px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.exceptionCard h3{
+    color: crimson;
+}
+
+.projectCard:hover{
+    background-color: lightgrey;
+}
+
+.exceptionCard:hover{
+    background-color: lightgray;
+}
+
+.exceptionsSection p{
+    color: white;
+    height: 100%;
+    text-align: center;
+    margin-top: 50%;
+}
+.briefSection p{
+    color: white;
+    height: 100%;
+    text-align: center;
+    margin-top: 50%;
+}
+.detailContainer{
+    background-color: white;
+    height: 100%;
+    margin-top: 20px;
+    padding: 5px;
+    overflow-y:auto;
+}
+
+.detailContainer h2{
+    font-size: 2em;
+}
+.stackTrace{
+    color: red;
+    font-family: 'Fira Code', monospace;
+    margin-bottom: 10px;
+    font-size: 0.7vw;
+}
+.solutionText{
+    font-size: 1.4em;
+}
