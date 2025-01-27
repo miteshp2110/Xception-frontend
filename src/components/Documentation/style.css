@@ -1,3 +1,39 @@
 .documentationContainer{
-    margin-top: 30vh;
+    margin-top: 5vh;
+    display: flex;
+    font-family: "Bebas Neue",serif;
+    flex-direction: column;
 }
+.documentationContainer h1{
+    margin-left: 50px;
+    font-size: 3em;
+}
+
+.stepBox{
+    /* background-color: aqua; */
+    margin-top: 2em;
+    margin-left: 50px;
+}
+.stepBox h2{
+    font-size: 5em;
+}
+.stepBox p{
+    font-size: 2em;
+    margin-left: 2em;
+}
+.stepBox a{
+    background-color: white;padding-inline: 10px;
+    text-align: center;
+}
+
+
+.code {
+    margin-left: 50px;
+    width: 40em;
+}
+
+#repoLink{
+    font-size: 3em;
+    margin-left: 1em;
+}
+

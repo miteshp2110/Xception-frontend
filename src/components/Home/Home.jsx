@@ -7,8 +7,7 @@ import { Element } from 'react-scroll';
 function Home(){
     const elements = useRef([]);
     const {isLogged} = useContext(AppContext)
-    gsap.registerPlugin(ScrollTrigger); 
-
+    gsap.registerPlugin(ScrollTrigger);
     useEffect(()=>{
 
         if(!isLogged){
