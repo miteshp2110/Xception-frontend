@@ -9,7 +9,8 @@ import CodeBlock from '../CodeBlock/CodeBlock'
 import ComponentLoader from '../ComponentLoader/ComponentLoader';
 
 function Home(){
-    
+    const [nameTakenError,setNameTakenError] = useState(false)
+    const [openDialog,setOpenDialog] = useState(false)
     const [projectName,setProjectName] = useState('')
     const [projectArray,setProjectArray] = useState([])
     const [exceptionsArray,setExceptionsArray] = useState([])
@@ -17,8 +18,7 @@ function Home(){
     const [activeException,setActiveException] = useState(null)
     const [loadingExceptions,setLoadingException] = useState(false)
     const [loadingProject,setLoadingProject] = useState(true)
-    // setActiveException(0)
-    // setActiveProject('name')
+    var [refreshProjects,setRefreshProjects] = useState(0)
 
     const [isScroll,setScroll] = useState(false)
     const elements = useRef([]);
@@ -120,20 +120,25 @@ function Home(){
             })
             }
         }
-
         else{
-
             gsap.from(".loggedContainer",{
                 alpha:0,
                 x:-20,
                 duration:1
             })
+        }
+
+    },[])
+
+    useEffect(()=>{
+        if(isLogged){
             const init = async()=>{
                 setLoadingProject(true)
                 const response = await getAllProject(jwt)
                 if (response.error){
                     if(response.status === 403){
-                        console.log("logout")
+                        logout()
+                        window.location.href="/"
                     }
                 }
                 else{
@@ -142,68 +147,42 @@ function Home(){
             }
             init()
             setLoadingProject(false)
-            
         }
-        
-    
-
-    },[])
+    },[refreshProjects])
 
     async function addNewProject() {
-        const response = await addProject("Test Project2",jwt)
+        const response = await addProject(projectName,jwt)
         if (response.error){
             if(response.status === 403){
-                console.log("logout")
+                alert("Session Expired")
+                logout()
+                window.location.href = "/"
             }
             else{
                 if(response.status === 401){
-                    console.log("name already taken")
+                    setNameTakenError(true)
                 }
             }
         }
         else{
-            console.log("created project")
-            //refresh
+            setProjectName('')
+            setOpenDialog(false)
+            const rf = refreshProjects+1
+            setRefreshProjects(rf)
         }
     }
 
-    useEffect(()=>{
-        if(isLogged && activeException){
-            console.log(activeException)
-        }
-    },[activeException])
-    
+ 
     useEffect(()=>{
         if(isLogged && activeProject){
             setLoadingException(true)
             
-            // const exceptionObj = {
-                
-            //     exception:{
-            //         stack:"this is stack trace for the code",
-            //         name:"some name",
-            //         cause:"some cause"
-            //     },
-            //     llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
-            // }
-
-            // const exceptionObj2 = {
-                
-            //     exception:{
-            //         stack:"this is stack trace for the code 2",
-            //         name:"exception2",
-            //         cause:"other cause"
-            //     },
-            //     llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
-            // }
-
-            // const myArr = [exceptionObj,exceptionObj2]
-
             const init = async()=>{
                 const response = await getAllExceptions(activeProject,jwt)
                 if (response.error){
                     if(response.status === 403){
-                        console.log("logout")
+                        logout()
+                        window.location.href = "/"
                     }
                 }
                 else{
@@ -324,7 +303,32 @@ function Home(){
                         {/* <button onClick={async()=>{await addNewProject()}}>Add project</button> */}
 
                         <div className='projectSection sections'>
-                            <h1 className='addProject'>Add Project</h1>
+                            <h1 
+                            onClick={()=>{
+                                
+                                setOpenDialog(true)
+                            }}
+                            className='addProject'>Add Project</h1>
+
+                            {openDialog?<div className='addNewSection'>
+                                <div onClick={()=>{
+                                    setProjectName('')
+                                    setNameTakenError(false)
+                                    setOpenDialog(false)
+                                }}className='closeAdd'>close</div>
+                                <div className='nameInUse'>
+                                    {nameTakenError?'Name already in Use':''}
+                                </div>
+                                <input value={projectName}
+                                className='inpt'
+                                type='text'
+                                onChange={(e)=>{setProjectName(e.target.value)}}
+                                placeholder='Project Name'/>
+
+                                <button onClick={async()=>{
+                                    await addNewProject()
+                                }}>Add</button>
+                            </div>:''}
 
                             <div className='projectList'>
                                 {loadingProject?<ComponentLoader/>:
@@ -350,7 +354,8 @@ function Home(){
 
                             {activeProject?<div className='projectList' id='exceptionSections'>
                     
-                                {loadingExceptions?<ComponentLoader/>:                                exceptionsArray.map((exception,index)=>(
+                                {loadingExceptions?<ComponentLoader/>:                                
+                                exceptionsArray.length==0?<p>No Exceptions in project</p>:exceptionsArray.map((exception,index)=>(
                                     <div className={`exceptionCard ${activeException==exception?'active':''}`} key={index} onClick={()=>{
                                         
                                         setActiveException(exception)
@@ -359,7 +364,8 @@ function Home(){
                                             {exception.exception.name}
                                         </h3>
                                     </div>
-                                ))}
+                                ))
+                                }
 
                                 
                             </div>:<p>Select a Project</p>}
@@ -371,7 +377,6 @@ function Home(){
                             <h1>Exception-Detail</h1>
 
                             {activeException?<div className='detailContainer'>
-                                {console.log(activeException)}
                                 <h2>Name : {activeException.exception.name}</h2>
                                 <h2>cause : {activeException.exception.cause}</h2>
                                 <h2>Stack Trace :</h2>

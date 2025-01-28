@@ -278,3 +278,47 @@
 .active{
     background-color: lightgray;
 }
+
+.addNewSection{
+    margin-top: 20px;
+    background-color: white;
+    height: 50%; 
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    transition: all ease 0.3;
+}
+
+.nameInUse{
+    text-align: center;
+    font-size: 1.1em;
+    color: red;
+    /* background-color: blue; */
+    position: absolute;
+    margin-top: 25px;
+}
+.closeAdd{
+    color: red;
+    font-size: 1.2em;
+    cursor: pointer;
+
+}
+
+.addNewSection input{
+    margin-top: 30px;
+    font-size: 1.2em;
+    padding: 5px;
+    font-family: "Bebas Neue",serif;
+}
+
+.addNewSection button{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: "Bebas Neue",serif;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.closeAdd:hover{
+    
+}
