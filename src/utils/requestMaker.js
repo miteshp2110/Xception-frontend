@@ -14,18 +14,15 @@ const postRequest = async(endpoint,jwt,data)=>{
 
   try{
     const response = await axios.post(uri+`/${endpoint}`,data,{headers})
-    console.log(response.data)
     return new Response(200,false,response.data)
   }
   catch(error){
-    console.error(error)
 
     if(error.status === 403){
         return new Response(403,true)
     }
     if(error.status === 401){
         const errorResponseData = error.response.data
-        console.log(errorResponseData)
         if(errorResponseData === "Unauthorized"){
             return new Response(403,true)
         }

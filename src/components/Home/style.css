@@ -231,7 +231,7 @@
     cursor: pointer;
 }
 .exceptionCard h3{
-    color: crimson;
+    color: red;
 }
 
 .projectCard:hover{
@@ -273,4 +273,8 @@
 }
 .solutionText{
     font-size: 1.4em;
+}
+
+.active{
+    background-color: lightgray;
 }

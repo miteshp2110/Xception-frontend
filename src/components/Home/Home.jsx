@@ -4,19 +4,19 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AppContext } from '../AppContext'
 import { Element } from 'react-scroll';
-import { addProject } from '../../utils/CoreRequests';
+import { addProject, getAllExceptions, getAllProject } from '../../utils/CoreRequests';
 import CodeBlock from '../CodeBlock/CodeBlock'
 import ComponentLoader from '../ComponentLoader/ComponentLoader';
 
 function Home(){
     
     const [projectName,setProjectName] = useState('')
-
     const [projectArray,setProjectArray] = useState([])
     const [exceptionsArray,setExceptionsArray] = useState([])
     const [activeProject,setActiveProject] = useState('')
     const [activeException,setActiveException] = useState(null)
     const [loadingExceptions,setLoadingException] = useState(false)
+    const [loadingProject,setLoadingProject] = useState(true)
     // setActiveException(0)
     // setActiveProject('name')
 
@@ -122,10 +122,26 @@ function Home(){
         }
 
         else{
-            const newProject = {name:"Project1",apiKey:"Apikeyofproject"}
-            setProjectArray([...projectArray,newProject])
 
-            
+            gsap.from(".loggedContainer",{
+                alpha:0,
+                x:-20,
+                duration:1
+            })
+            const init = async()=>{
+                setLoadingProject(true)
+                const response = await getAllProject(jwt)
+                if (response.error){
+                    if(response.status === 403){
+                        console.log("logout")
+                    }
+                }
+                else{
+                    setProjectArray(response.data.data)
+                }
+            }
+            init()
+            setLoadingProject(false)
             
         }
         
@@ -156,35 +172,50 @@ function Home(){
             console.log(activeException)
         }
     },[activeException])
-
+    
     useEffect(()=>{
         if(isLogged && activeProject){
-            console.log("get details for project")
-            console.log(activeProject)
-            const exceptionObj = {
+            setLoadingException(true)
+            
+            // const exceptionObj = {
                 
-                exception:{
-                    stack:"this is stack trace for the code",
-                    name:"some name",
-                    cause:"some cause"
-                },
-                llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
-            }
+            //     exception:{
+            //         stack:"this is stack trace for the code",
+            //         name:"some name",
+            //         cause:"some cause"
+            //     },
+            //     llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
+            // }
 
-            const exceptionObj2 = {
+            // const exceptionObj2 = {
                 
-                exception:{
-                    stack:"this is stack trace for the code 2",
-                    name:"exception2",
-                    cause:"other cause"
-                },
-                llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
-            }
+            //     exception:{
+            //         stack:"this is stack trace for the code 2",
+            //         name:"exception2",
+            //         cause:"other cause"
+            //     },
+            //     llmResponse : "the probable cause of the problem is an unhandled exception or error in the server.js file at line 14, column 19, a possible way to solve this issue is to check the code at the specified line and column, ensure that all variables and functions are properly defined and called, and add error handling mechanisms such as try-catch blocks to catch and log any errors that may occur, also verify that all dependencies and modules are properly imported and configured, and check the express router configuration to ensure that it is correctly set up to handle requests and errors."
+            // }
 
-            setExceptionsArray([...exceptionsArray,exceptionObj,exceptionObj2])
+            // const myArr = [exceptionObj,exceptionObj2]
+
+            const init = async()=>{
+                const response = await getAllExceptions(activeProject,jwt)
+                if (response.error){
+                    if(response.status === 403){
+                        console.log("logout")
+                    }
+                }
+                else{
+                    setExceptionsArray(response.data.data[0])
+                }
+                setLoadingException(false)
+            }
+            init()
         }
     },[activeProject])
     
+
 
     return(
         <>
@@ -296,16 +327,19 @@ function Home(){
                             <h1 className='addProject'>Add Project</h1>
 
                             <div className='projectList'>
-                                {projectArray.map((project)=>(
-                                    <div className='projectCard' key={project.name} onClick={()=>{
-                                        setActiveProject(project.name)
+                                {loadingProject?<ComponentLoader/>:
+                                projectArray.map((project)=>(
+                                    <div className={`projectCard ${activeProject=== project.apiKey?'active':''}`} key={project.name} onClick={()=>{
+                                        
+                                        setActiveProject(project.apiKey)
                                     }}>
                                         <h3>
                                             {project.name}
                                         </h3>
                                         <CodeBlock code={project.apiKey} language='english'/>
                                     </div>
-                                ))}
+                                ))
+                                }
 
                                 
                             </div>
@@ -314,10 +348,10 @@ function Home(){
                         <div className='exceptionsSection sections'>
                             <h1>Exceptions</h1>
 
-                            {activeProject?<div className='projectList'>
+                            {activeProject?<div className='projectList' id='exceptionSections'>
                     
                                 {loadingExceptions?<ComponentLoader/>:                                exceptionsArray.map((exception,index)=>(
-                                    <div className='exceptionCard' key={index} onClick={()=>{
+                                    <div className={`exceptionCard ${activeException==exception?'active':''}`} key={index} onClick={()=>{
                                         
                                         setActiveException(exception)
                                     }}>
