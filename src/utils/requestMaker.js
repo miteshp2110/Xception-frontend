@@ -1,6 +1,6 @@
 import axios from "axios";
 import Response from "./Response";
-const uri = "https://xception.tech/service/api"
+const uri = "https://xceptions.tech/service/api"
 // const uri = "http://localhost:5000/api"
 
 
