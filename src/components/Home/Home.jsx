@@ -332,6 +332,7 @@ function Home(){
 
                             <div className='projectList'>
                                 {loadingProject?<ComponentLoader/>:
+                                projectArray.length==0?<p id='noP'>No projects yet</p>:
                                 projectArray.map((project)=>(
                                     <div className={`projectCard ${activeProject=== project.apiKey?'active':''}`} key={project.name} onClick={()=>{
                                         

@@ -318,7 +318,9 @@
     font-size: 1.2em;
     cursor: pointer;
 }
-
-.closeAdd:hover{
-    
+#noP{
+    color: white;
+    height: 100%;
+    text-align: center;
+    margin-top: 50%;
 }
